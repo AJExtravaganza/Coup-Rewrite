@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1480141248 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\main.cpp
+	"Assassinate.hpp"
+	"stdlib.h"
+
+1480137182 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\player.cpp
+	"Card.hpp"
+	"enums.h"
+	"Player.hpp"
+	<string>
+
+1480139764 e:\users\backbox\dropbox\c++ repository\coup rewrite\card.hpp
+	"enums.h"
+	<string>
+
+1480136402 e:\users\backbox\dropbox\c++ repository\coup rewrite\enums.h
+
+1480130577 e:\users\backbox\dropbox\c++ repository\coup rewrite\player.hpp
+	"Card.hpp"
+	"enums.h"
+	<iostream>
+	<vector>
+
+1480143327 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\action.cpp
+	"Action.hpp"
+
+1480143327 e:\users\backbox\dropbox\c++ repository\coup rewrite\action.hpp
+	"Player.hpp"
+	<iostream>
+
+1480119174 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\card.cpp
+	"Card.hpp"
+
+1480127855 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\assasinate.cpp
+	"Assasinate.hpp"
+	"validation.hpp"
+
+1480127912 e:\users\backbox\dropbox\c++ repository\coup rewrite\assasinate.hpp
+	"Action.hpp"
+	"Player.hpp"
+
+1480141597 e:\users\backbox\dropbox\c++ repository\coup rewrite\validation.hpp
+	<vector>
+
+1480128964 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\actiontemplate.cpp
+
+1480143131 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.cpp
+	"Assassinate.hpp"
+	"Block.hpp"
+	"validation.hpp"
+
+1480139924 e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.hpp
+	"Action.hpp"
+	"Player.hpp"
+
+1480139848 e:\users\backbox\dropbox\c++ repository\coup rewrite\block.hpp
+	"Action.hpp"
+	"validation.hpp"
+	<vector>
+
+1480143091 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\block.cpp
+	"Block.hpp"
+
