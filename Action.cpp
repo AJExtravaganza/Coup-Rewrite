@@ -30,6 +30,11 @@ Action::~Action()
 
 }
 
+std::string Action::getCasterName()
+{
+    return caster->getName();
+}
+
 ActionID Action::getActionID()
 {
     return actionID;

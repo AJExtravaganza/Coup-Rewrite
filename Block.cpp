@@ -5,13 +5,13 @@ Block::Block(Player* _caster, std::vector<Player>& availablePlayers, Action* _ta
     switch(targetAction->getActionID())
     {
     case FOREIGN_AID:
-        isBluff = !(caster->hasCard(DUKE));
+        isBluff = !(caster->hasInfluence(DUKE));
         break;
     case STEAL:
-        isBluff = !(caster->hasCard(CAPTAIN) || caster->hasCard(AMBASSADOR));
+        isBluff = !(caster->hasInfluence(CAPTAIN) || caster->hasInfluence(AMBASSADOR));
         break;
     case ASSASSINATE:
-        isBluff = !(caster->hasCard(CONTESSA));
+        isBluff = !(caster->hasInfluence(CONTESSA));
         break;
     default:
         //throw exception
@@ -60,11 +60,6 @@ void Block::checkForChallenge(std::vector<Player>& availablePlayers)
     if (challenger)
     {
         challenge(challenger);
-    }
-
-    if (status == VALID)
-    {
-        targetAction->block();
     }
 }
 
@@ -131,5 +126,23 @@ void Block::challenge(Player* challenger)
 
 void Block::resolve()
 {
+    *globalComms << caster->getName() << " successfully blocks " << targetAction->getCasterName() << "'s ";
 
+        switch(targetAction->getActionID())
+        {
+        case FOREIGN_AID:
+            *globalComms << "foreign aid!\n";
+            break;
+        case STEAL:
+            *globalComms << "attempted theft!\n";
+            break;
+        case ASSASSINATE:
+            *globalComms << "assassination attempt!\n";
+            break;
+        default:
+            //throw exception
+            break;
+        }
+
+    targetAction->block();
 }

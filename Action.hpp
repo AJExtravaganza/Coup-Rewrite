@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Player.hpp"
-//#include "validation.hpp"
+#include "validation.hpp"
 
 #include <iostream>
 
@@ -22,6 +22,8 @@ public:
 
     static const ActionID actionID = NullAction;
     std::ostream* globalComms;
+
+    std::string getCasterName();
 
 // TODO (Backbox#1#): Check later if this needs to be virtual or whether I can just define it here and have the calls still work.
     virtual ActionID getActionID();
