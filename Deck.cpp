@@ -27,9 +27,9 @@ Deck& Deck::putOnTop(Card newCard)
     return *this;
 }
 
-Deck& Deck::putOnTop(Card newCard, unsigned int quantity)
+Deck& Deck::putOnTop(Card newCard, int quantity)
 {
-    for(unsigned int i = 0; i < quantity; i++)
+    for(int i = 0; i < quantity; i++)
     {
         contents.push(newCard);
     }
@@ -67,8 +67,8 @@ std::stack<Card> Deck::split(std::stack<Card>& mainstack) //WORKS
 void Deck::riffle(std::stack<Card>& mainstack, std::stack<Card>& offstack)
 
 {
-    unsigned int totalCards = (mainstack.size() + offstack.size());
-    unsigned int remainingCards = totalCards;
+    int totalCards = (mainstack.size() + offstack.size());
+    int remainingCards = totalCards;
     std::stack<Card> newstack;
     while(remainingCards)
     {

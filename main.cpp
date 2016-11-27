@@ -42,23 +42,37 @@ int main()
     std::vector<Player> activePlayers;
     *globalComms << "How many players? ";
     int desiredPlayers = getSelection(2, 6, *serverInput, *globalComms);
-    int activePlayersAtTurnStart = desiredPlayers;
     serverInput->ignore();
 
     for (int i = 0; i < desiredPlayers; i++)
     {
         activePlayers.push_back(Player(i, &gameDeck));
-        activePlayers[i].giveIsk(10);
+        activePlayers[i].giveIsk(3);
         activePlayers[i].giveNewCard(gameDeck.draw());
         activePlayers[i].giveNewCard(gameDeck.draw());
     }
 
-    for (int i = 0; activePlayers.size() > 1; i = ((i + 1 + activePlayers.size()) % activePlayersAtTurnStart))
+// TODO (Backbox#1#): Some shitty counting when 2 and 3 coup 1
+    for (int i = 0; activePlayers.size() > 1; i = ((i + 1) % activePlayers.size()))
     {
-        activePlayersAtTurnStart = activePlayers.size();
         processTurn(activePlayers, (&activePlayers[0] + i), globalComms);
+        for (int j = 0; j < activePlayers.size(); j++)
+        {
+            if (!activePlayers[j].hasUnexposedCards())
+            {
+                activePlayers.erase(begin(activePlayers) + j);
 
+                if (j <= i)
+                {
+                    i--;
+                }
+
+                j--;
+            }
+        }
     }
+
+    *globalComms << activePlayers[0].getName() << " wins the game, holding " << activePlayers[0].listHandInline() << "!\n\n";
 
 
     return 0;
@@ -73,19 +87,28 @@ void processTurn(std::vector<Player>& activePlayers, Player* activePlayer, std::
 
     boardState(activePlayers, globalComms);
 
-    *activePlayer->uiOut << *activePlayer.getName() << ", you have the following card(s) in your hand: \n" << activePlayer->listHand() << ".\n"
-                       << "You have " << activePlayer->iskBalance() << " ISK.\n\n"
-                       << "Which action would you like to take? [1-7]\n\n"
-                       << "[1] Take income\n"
-                       << "[2] Take foreign aid\n"
-                       << "[3] Stage a coup\n"
-                       << "[4] Tax\n"
-                       << "[5] Assassinate\n"
-                       << "[6] Exchange\n"
-                       << "[7] Steal\n\n"
-                       << "Your choice: ";
+    *activePlayer->uiOut << activePlayer->getName() << ", you have the following card(s) in your hand: \n" << activePlayer->listHandInline() << ".\n"
+                         << "You have " << activePlayer->iskBalance() << " ISK.\n\n";
 
-    menuSelection = getSelection(1, 7, *activePlayer->uiIn, *activePlayer->uiOut);
+    if (activePlayer->hasIsk(10))
+    {
+        *globalComms << activePlayer->getName() << " has ten or more ISK, and must perform a Coup!\n\n";
+        menuSelection = 3;
+    }
+    else
+    {
+        *activePlayer->uiOut << "Which action would you like to take? [1-7]\n\n"
+                             << "[1] Take income\n"
+                             << "[2] Take foreign aid\n"
+                             << "[3] Stage a coup\n"
+                             << "[4] Tax\n"
+                             << "[5] Assassinate\n"
+                             << "[6] Exchange\n"
+                             << "[7] Steal\n\n"
+                             << "Your choice: ";
+
+        menuSelection = getSelection(1, 7, *activePlayer->uiIn, *activePlayer->uiOut);
+    }
 
     switch(menuSelection)
     {
@@ -122,7 +145,7 @@ void processTurn(std::vector<Player>& activePlayers, Player* activePlayer, std::
 
 void boardState(std::vector<Player>& activePlayers, std::ostream* globalComms)
 {
-    for (unsigned int i = 0; i < activePlayers.size(); i++)
+    for (int i = 0; i < activePlayers.size(); i++)
     {
         *globalComms << std::left
                      << std::setw(15) << activePlayers[i].getName()

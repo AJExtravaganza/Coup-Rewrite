@@ -14,7 +14,7 @@ private:
     std::string name;
     int isk;
 // TODO (Backbox#1#): Upon project completion, check if still necessary
-    bool stillAlive;
+    bool isAlive;
     std::vector<Card> hand;
 
 public:
@@ -37,13 +37,15 @@ public:
     int iskBalance();
     bool hasIsk(int cost) const;
     void giveNewCard(Card newCard);
-    bool hasInfluence(Role claimedRole);
+    bool hasInfluenceOver(Role claimedRole);
     std::string listHand();
+    std::string listHandInline();
+    void listHandInline(std::ostream& out);
     void playerDiscards(int requiredDiscards);
     bool willChallenge();
     void sacrifice();
     void exchange();
+    bool hasUnexposedCards();
     void killPlayer();
-    bool isAlive();
 
 };

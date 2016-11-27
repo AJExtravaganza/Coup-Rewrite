@@ -4,9 +4,9 @@
 #include <string>
 
 
-Player::Player(): playerID(-1), name("namelessplayer"), isk(0), stillAlive(false), hand({}), gameDeck(nullptr), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout){}
+Player::Player(): playerID(-1), name("namelessplayer"), isk(0), isAlive(false), hand({}), gameDeck(nullptr), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout){}
 
-Player::Player(int _playerID, CoupDeck* _gameDeck): playerID(_playerID), name("namelessplayer"), isk(0), stillAlive(true), hand({}), gameDeck(_gameDeck), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout)
+Player::Player(int _playerID, CoupDeck* _gameDeck): playerID(_playerID), name("namelessplayer"), isk(0), isAlive(true), hand({}), gameDeck(_gameDeck), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout)
 {
     *uiOut << "Player " << playerID << ", what is your name? ";
     std::string rawName;
@@ -15,9 +15,9 @@ Player::Player(int _playerID, CoupDeck* _gameDeck): playerID(_playerID), name("n
 }
 
 
-Player::Player(const Player& other): playerID(other.playerID), name(other.name), isk(other.isk), stillAlive(other.stillAlive), hand({}), gameDeck(other.gameDeck), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout)
+Player::Player(const Player& other): playerID(other.playerID), name(other.name), isk(other.isk), isAlive(other.isAlive), hand({}), gameDeck(other.gameDeck), uiIn(&std::cin), uiOut(&std::cout), globalComms(&std::cout)
 {
-    for (unsigned int card = 0; card < other.hand.size(); card++)
+    for (int card = 0; card < other.hand.size(); card++)
     {
         hand.push_back(other.hand[card]);
     }
@@ -28,10 +28,10 @@ Player& Player::operator=(const Player& other)
     playerID = other.playerID;
     name = other.name;
     isk = other.isk;
-    stillAlive = other.stillAlive;
+    isAlive = other.isAlive;
     hand = {};
 // TODO (Backbox#1#): Can't I just assign other.hand to this.hand?
-    for (unsigned int card = 0; card < other.hand.size(); card++)
+    for (int card = 0; card < other.hand.size(); card++)
     {
         hand.push_back(other.hand[card]);
     }
@@ -90,11 +90,11 @@ void Player::giveNewCard(Card newCard)
     hand.push_back(newCard);
 }
 
-bool Player::hasInfluence(Role claimedRole)
+bool Player::hasInfluenceOver(Role claimedRole)
 {
     bool cardFound = false;
 
-    for (unsigned int card = 0; card < hand.size(); card++)
+    for (int card = 0; card < hand.size(); card++)
     {
         if (hand[card].is(claimedRole) && !hand[card].isExposed())
         {
@@ -110,7 +110,7 @@ std::string Player::listHand()
 {
     std::string handString = "   ";
 
-    for (unsigned int card = 0; card < hand.size(); card++)
+    for (int card = 0; card < hand.size(); card++)
     {
         if (hand[card].isExposed())
         {
@@ -125,7 +125,7 @@ std::string Player::listHand()
         handString += "   ";
     }
 
-    for (unsigned int i = 0; i < handString.size(); i++)
+    for (int i = 0; i < handString.size(); i++)
     {
         handString[i] = toupper(handString[i]);
     }
@@ -133,11 +133,40 @@ std::string Player::listHand()
     return handString;
 }
 
+
+std::string Player::listHandInline()
+{
+
+    std::string handString = (hand[0].isExposed() ? "" : hand[0].getName());
+
+    for (int i = 1; i < hand.size(); i++)
+    {
+        if (!hand[i].isExposed())
+        {
+            if (!handString.empty())
+            {
+                handString += " and ";
+            }
+
+            handString += hand[i].getName();
+        }
+    }
+
+    return handString;
+}
+
+void Player::listHandInline(std::ostream& out)
+{
+
+    out << listHandInline();
+
+}
+
 void Player::playerDiscards(int requiredDiscards)
 {
     *uiOut << "\n" << getName() << ", you currently have the following unexposed cards in your hand:\n";
 
-    for (unsigned int card = 0; card < hand.size(); card++)
+    for (int card = 0; card < hand.size(); card++)
     {
         if (!hand[card].isExposed())
         {
@@ -147,7 +176,7 @@ void Player::playerDiscards(int requiredDiscards)
 
     *uiOut << "\n\nChoose " << requiredDiscards << " more " << (requiredDiscards == 1 ? "card" : "cards") << " to discard: ";
 
-    unsigned int cardSelection = 0;
+    int cardSelection = 0;
     do
     {
         cardSelection = (getSelection(1, hand.size(), *uiIn, *uiOut) - 1); //removes offset so elements are 0 to (hand.size() - 1)
@@ -167,7 +196,7 @@ void Player::sacrifice()
 {
     *uiOut << "\n" << getName() << ", you currently have the following unexposed cards in your hand:\n";
 
-    for (unsigned int card = 0; card < hand.size(); card++)
+    for (int card = 0; card < hand.size(); card++)
     {
         if (!hand[card].isExposed())
         {
@@ -181,14 +210,24 @@ void Player::sacrifice()
     hand[cardSelection].expose();
 
     *globalComms << "\n\n" << getName() << " exposes " << hand[cardSelection].getName() << "!\n";
+
+    if (!hasUnexposedCards())
+    {
+        *globalComms << "\n\n" << getName() << " has no remaining influence, and is out of the game!\n";
+    }
 }
 
-void Player::killPlayer()
+bool Player::hasUnexposedCards()
 {
-    stillAlive = false;
-}
+    isAlive = false;
 
-bool Player::isAlive()
-{
-    return stillAlive;
+    for (int i = 0; i < hand.size(); i++)
+    {
+        if (!hand[i].isExposed())
+        {
+            isAlive = true;
+        }
+    }
+
+    return isAlive;
 }

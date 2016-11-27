@@ -5,13 +5,13 @@ Block::Block(Player* _caster, std::vector<Player>& availablePlayers, Action* _ta
     switch(targetAction->getActionID())
     {
     case FOREIGN_AID:
-        isBluff = !(caster->hasInfluence(DUKE));
+        isBluff = !(caster->hasInfluenceOver(DUKE));
         break;
     case STEAL:
-        isBluff = !(caster->hasInfluence(CAPTAIN) || caster->hasInfluence(AMBASSADOR));
+        isBluff = !(caster->hasInfluenceOver(CAPTAIN) || caster->hasInfluenceOver(AMBASSADOR));
         break;
     case ASSASSINATE:
-        isBluff = !(caster->hasInfluence(CONTESSA));
+        isBluff = !(caster->hasInfluenceOver(CONTESSA));
         break;
     default:
         //throw exception
@@ -20,7 +20,7 @@ Block::Block(Player* _caster, std::vector<Player>& availablePlayers, Action* _ta
 
     checkForChallenge(availablePlayers);
 
-    if (status == VALID)
+    if (status == VALID && caster->hasUnexposedCards())
     {
         resolve();
     }
@@ -49,7 +49,7 @@ void Block::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
-    for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
         {

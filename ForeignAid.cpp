@@ -7,7 +7,10 @@ ForeignAid::ForeignAid(Player* _caster, std::vector<Player>& availablePlayers): 
 
     checkForBlock(availablePlayers);
 
-    resolve();
+    if (caster->hasUnexposedCards())
+    {
+        resolve();
+    }
 }
 
 ForeignAid::ForeignAid(const ForeignAid& other): Action(other) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
@@ -39,7 +42,7 @@ void ForeignAid::checkForBlock(std::vector<Player>& availablePlayers)
 
     Player * blocker = nullptr;
 
-    for (unsigned int player = 0; player < availablePlayers.size()  && !blocker; player++)
+    for (int player = 0; player < availablePlayers.size()  && !blocker; player++)
     {
         if (&availablePlayers[player] != caster)
         {

@@ -19,7 +19,7 @@ public:
 
     Card draw();
     Deck& putOnTop(Card newCard);
-    Deck& putOnTop(Card newCard, unsigned int quantity);
+    Deck& putOnTop(Card newCard, int quantity);
     Deck& shuffle(); //performs a physically-modelled shuffle;
 };
 

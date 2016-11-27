@@ -117,11 +117,6 @@
 		<Unit filename="Steal.hpp" />
 		<Unit filename="Tax.cpp" />
 		<Unit filename="Tax.hpp" />
-		<Unit filename="actiontemplate.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="actiontemplate.hpp" />
 		<Unit filename="enums.h" />
 		<Unit filename="initialisation.cpp" />
 		<Unit filename="initialisation.hpp" />

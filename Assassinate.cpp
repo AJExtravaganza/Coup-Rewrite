@@ -3,7 +3,7 @@
 Assassinate::Assassinate(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster), target(nullptr)
 {
     status = (caster->hasIsk(3) ? VALID : INSUFFICIENTFUNDS);
-    isBluff = !(caster->hasInfluence(ASSASSIN));
+    isBluff = !(caster->hasInfluenceOver(ASSASSIN));
     if (status == VALID)
     {
         acquireTarget(availablePlayers, *caster->uiIn, *caster->uiOut);
@@ -13,12 +13,15 @@ Assassinate::Assassinate(Player* _caster, std::vector<Player>& availablePlayers)
         checkForChallenge(availablePlayers);
     }
 
-    if (status == VALID)
+    if (status == VALID && caster->hasUnexposedCards() && target->hasUnexposedCards())
     {
         checkForBlock(availablePlayers);
     }
 
-    resolve();
+    if (target->hasUnexposedCards())
+    {
+        resolve();
+    }
 }
 
 Assassinate::Assassinate(const Assassinate& other): Action(other), target(other.target) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
@@ -49,7 +52,7 @@ void Assassinate::acquireTarget(std::vector<Player>& availablePlayers, std::istr
 {
     int selection = -1;
 
-    for (unsigned int player = 1; player <= availablePlayers.size(); player++)
+    for (int player = 1; player <= availablePlayers.size(); player++)
     {
         if (&availablePlayers[player - 1] != caster)
         {
@@ -78,7 +81,7 @@ void Assassinate::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
-    for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
         {

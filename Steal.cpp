@@ -2,7 +2,7 @@
 
 Steal::Steal(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster), target(nullptr)
 {
-    isBluff = !(caster->hasInfluence(CAPTAIN));
+    isBluff = !(caster->hasInfluenceOver(CAPTAIN));
     if (status == VALID)
     {
         acquireTarget(availablePlayers, *caster->uiIn, *caster->uiOut);
@@ -12,12 +12,15 @@ Steal::Steal(Player* _caster, std::vector<Player>& availablePlayers): Action(_ca
         checkForChallenge(availablePlayers);
     }
 
-    if (status == VALID)
+    if (status == VALID && target->hasUnexposedCards())
     {
         checkForBlock(availablePlayers);
     }
 
-    resolve();
+    if (caster->hasUnexposedCards() && target->hasUnexposedCards())
+    {
+        resolve();
+    }
 }
 
 Steal::Steal(const Steal& other): Action(other), target(other.target) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
@@ -48,7 +51,7 @@ void Steal::acquireTarget(std::vector<Player>& availablePlayers, std::istream& u
 {
     int selection = -1;
 
-    for (unsigned int player = 1; player <= availablePlayers.size(); player++)
+    for (int player = 1; player <= availablePlayers.size(); player++)
     {
         if (&availablePlayers[player - 1] != caster)
         {
@@ -78,7 +81,7 @@ void Steal::checkForChallenge(std::vector<Player>& availablePlayers)
     Player * challenger = nullptr;
 
 // TODO (Backbox#1#): Change all instances of "player" in checkForChallenge() to "targetPlayer" for clarity
-    for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
         {

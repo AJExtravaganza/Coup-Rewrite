@@ -41,7 +41,7 @@ void Coup::acquireTarget(std::vector<Player>& availablePlayers, std::istream& ui
 {
     int selection = -1;
 
-    for (unsigned int player = 1; player <= availablePlayers.size(); player++)
+    for (int player = 1; player <= availablePlayers.size(); player++)
     {
         if (&availablePlayers[player - 1] != caster)
         {

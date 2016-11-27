@@ -2,7 +2,7 @@
 
 Tax::Tax(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster)
 {
-    isBluff = !(caster->hasInfluence(DUKE));
+    isBluff = !(caster->hasInfluenceOver(DUKE));
     if (status == VALID)
     {
         *globalComms << caster->getName() << " claims the Duke, and intends to collect tax.\n";
@@ -10,7 +10,10 @@ Tax::Tax(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster
         checkForChallenge(availablePlayers);
     }
 
-    resolve();
+    if(caster->hasUnexposedCards())
+    {
+        resolve();
+    }
 }
 
 Tax::Tax(const Tax& other): Action(other) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
@@ -40,7 +43,7 @@ void Tax::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
-    for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
         {

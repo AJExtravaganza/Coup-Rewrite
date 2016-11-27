@@ -3,15 +3,17 @@
 Exchange::Exchange(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster)
 {
     status = (caster->hasIsk(3) ? VALID : INSUFFICIENTFUNDS);
-    isBluff = !(caster->hasInfluence(AMBASSADOR));
+    isBluff = !(caster->hasInfluenceOver(AMBASSADOR));
     if (status == VALID)
     {
         *globalComms << caster->getName() << " claims the Ambassador, and intends to exchange cards.\n";
 
         checkForChallenge(availablePlayers);
     }
-
-    resolve();
+    if (caster->hasUnexposedCards())
+    {
+        resolve();
+    }
 }
 
 Exchange::Exchange(const Exchange& other): Action(other) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
@@ -41,7 +43,7 @@ void Exchange::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
-    for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
         {
