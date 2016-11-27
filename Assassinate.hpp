@@ -1,6 +1,6 @@
 #pragma once
-#include "Action.hpp"
-#include "Player.hpp"
+
+#include "Block.hpp"
 
 class Assassinate: public Action
 {
@@ -21,7 +21,7 @@ public:
     void checkForChallenge(std::vector<Player>& availablePlayers);
     Player* offerChallenge(Player* prospectiveChallenger);
     void challenge(Player* challenger);
-    void checkForBlock(std::vector<Player> availablePlayers);
+    void checkForBlock(std::vector<Player>& availablePlayers);
     void block();
     void resolve();
 

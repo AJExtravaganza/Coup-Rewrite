@@ -98,17 +98,35 @@
 		<Unit filename="Block.hpp" />
 		<Unit filename="Card.cpp" />
 		<Unit filename="Card.hpp" />
+		<Unit filename="Coup.cpp" />
 		<Unit filename="Coup.hpp" />
+		<Unit filename="CoupActions.hpp" />
+		<Unit filename="CoupDeck.cpp" />
+		<Unit filename="CoupDeck.hpp" />
+		<Unit filename="Deck.cpp" />
+		<Unit filename="Deck.hpp" />
+		<Unit filename="Exchange.cpp" />
 		<Unit filename="Exchange.hpp" />
+		<Unit filename="ForeignAid.cpp" />
 		<Unit filename="ForeignAid.hpp" />
+		<Unit filename="Income.cpp" />
 		<Unit filename="Income.hpp" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.hpp" />
+		<Unit filename="Steal.cpp" />
 		<Unit filename="Steal.hpp" />
+		<Unit filename="Tax.cpp" />
 		<Unit filename="Tax.hpp" />
-		<Unit filename="actiontemplate.cpp" />
+		<Unit filename="actiontemplate.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="actiontemplate.hpp" />
 		<Unit filename="enums.h" />
+		<Unit filename="initialisation.cpp" />
+		<Unit filename="initialisation.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="validation.cpp" />
 		<Unit filename="validation.hpp" />
 		<Extensions>
 			<code_completion />

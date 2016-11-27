@@ -1,12 +1,14 @@
 # depslib dependency file v1.0
-1480141248 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\main.cpp
-	"Assassinate.hpp"
+1480223560 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\main.cpp
+	"CoupActions.hpp"
+	"CoupDeck.hpp"
+	<iomanip>
+	<time.h>
 	"stdlib.h"
 
-1480137182 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\player.cpp
-	"Card.hpp"
-	"enums.h"
+1480224079 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\player.cpp
 	"Player.hpp"
+	"validation.hpp"
 	<string>
 
 1480139764 e:\users\backbox\dropbox\c++ repository\coup rewrite\card.hpp
@@ -15,17 +17,19 @@
 
 1480136402 e:\users\backbox\dropbox\c++ repository\coup rewrite\enums.h
 
-1480130577 e:\users\backbox\dropbox\c++ repository\coup rewrite\player.hpp
+1480223765 e:\users\backbox\dropbox\c++ repository\coup rewrite\player.hpp
 	"Card.hpp"
+	"CoupDeck.hpp"
 	"enums.h"
 	<iostream>
 	<vector>
 
-1480143327 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\action.cpp
+1480217906 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\action.cpp
 	"Action.hpp"
 
-1480143327 e:\users\backbox\dropbox\c++ repository\coup rewrite\action.hpp
+1480217906 e:\users\backbox\dropbox\c++ repository\coup rewrite\action.hpp
 	"Player.hpp"
+	"validation.hpp"
 	<iostream>
 
 1480119174 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\card.cpp
@@ -39,25 +43,91 @@
 	"Action.hpp"
 	"Player.hpp"
 
-1480141597 e:\users\backbox\dropbox\c++ repository\coup rewrite\validation.hpp
-	<vector>
+1480144600 e:\users\backbox\dropbox\c++ repository\coup rewrite\validation.hpp
+	<iostream>
 
 1480128964 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\actiontemplate.cpp
 
-1480143131 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.cpp
+1480223765 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.cpp
 	"Assassinate.hpp"
+
+1480146872 e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.hpp
 	"Block.hpp"
-	"validation.hpp"
 
-1480139924 e:\users\backbox\dropbox\c++ repository\coup rewrite\assassinate.hpp
+1480146907 e:\users\backbox\dropbox\c++ repository\coup rewrite\block.hpp
 	"Action.hpp"
-	"Player.hpp"
+	<vector>
 
-1480139848 e:\users\backbox\dropbox\c++ repository\coup rewrite\block.hpp
-	"Action.hpp"
+1480223765 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\block.cpp
+	"Block.hpp"
+
+1480144568 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\validation.cpp
 	"validation.hpp"
 	<vector>
 
-1480143091 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\block.cpp
+1480179991 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\initialisation.cpp
+
+1480201660 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\deck.cpp
+	"Deck.hpp"
+	"math.h"
+
+1480219733 e:\users\backbox\dropbox\c++ repository\coup rewrite\deck.hpp
+	"Card.hpp"
+	<stack>
+
+1480200879 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\coupdeck.cpp
+	"CoupDeck.hpp"
+
+1480219753 e:\users\backbox\dropbox\c++ repository\coup rewrite\coupdeck.hpp
+	"Deck.hpp"
+
+1480211412 e:\users\backbox\dropbox\c++ repository\coup rewrite\coupactions.hpp
+	"Income.hpp"
+	"ForeignAid.hpp"
+	"Coup.hpp"
+	"Tax.hpp"
+	"Assassinate.hpp"
+	"Exchange.hpp"
+	"Steal.hpp"
 	"Block.hpp"
+
+1480212992 e:\users\backbox\dropbox\c++ repository\coup rewrite\income.hpp
+	"Action.hpp"
+
+1480214955 e:\users\backbox\dropbox\c++ repository\coup rewrite\foreignaid.hpp
+	"Action.hpp"
+	"Block.hpp"
+
+1480212992 e:\users\backbox\dropbox\c++ repository\coup rewrite\coup.hpp
+	"Action.hpp"
+
+1480212992 e:\users\backbox\dropbox\c++ repository\coup rewrite\tax.hpp
+	"Action.hpp"
+	"Block.hpp"
+
+1480212992 e:\users\backbox\dropbox\c++ repository\coup rewrite\exchange.hpp
+	"Action.hpp"
+	"Block.hpp"
+
+1480212992 e:\users\backbox\dropbox\c++ repository\coup rewrite\steal.hpp
+	"Action.hpp"
+	"Block.hpp"
+
+1480217396 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\coup.cpp
+	"Coup.hpp"
+
+1480223765 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\exchange.cpp
+	"Exchange.hpp"
+
+1480217097 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\foreignaid.cpp
+	"ForeignAid.hpp"
+
+1480215067 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\income.cpp
+	"Income.hpp"
+
+1480223765 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\steal.cpp
+	"Steal.hpp"
+
+1480223765 source:e:\users\backbox\dropbox\c++ repository\coup rewrite\tax.cpp
+	"Tax.hpp"
 

@@ -1,14 +1,13 @@
-#include "Assassinate.hpp"
+#include "Steal.hpp"
 
-Assassinate::Assassinate(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster), target(nullptr)
+Steal::Steal(Player* _caster, std::vector<Player>& availablePlayers): Action(_caster), target(nullptr)
 {
-    status = (caster->hasIsk(3) ? VALID : INSUFFICIENTFUNDS);
-    isBluff = !(caster->hasInfluence(ASSASSIN));
+    isBluff = !(caster->hasInfluence(CAPTAIN));
     if (status == VALID)
     {
         acquireTarget(availablePlayers, *caster->uiIn, *caster->uiOut);
 
-        *globalComms << caster->getName() << " claims the Assassin, targeting " << target->getName() << ".\n";
+        *globalComms << caster->getName() << " claims the Captain, targeting " << target->getName() << ".\n";
 
         checkForChallenge(availablePlayers);
     }
@@ -21,13 +20,13 @@ Assassinate::Assassinate(Player* _caster, std::vector<Player>& availablePlayers)
     resolve();
 }
 
-Assassinate::Assassinate(const Assassinate& other): Action(other), target(other.target) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
+Steal::Steal(const Steal& other): Action(other), target(other.target) //N.B This is how to correctly call a base-class constructor in a derived-class constructor.
 {
 
 }
 
 
-Assassinate& Assassinate::operator=(const Assassinate& other)
+Steal& Steal::operator=(const Steal& other)
 {
     Action::operator=(other); //N.B This is how to correctly call the base-class assignment operator in a derived-class assignment operator.
     target = other.target;
@@ -35,17 +34,17 @@ Assassinate& Assassinate::operator=(const Assassinate& other)
     return *this;
 }
 
-Assassinate::~Assassinate()
+Steal::~Steal()
 {
 
 }
 
-ActionID Assassinate::getActionID()
+ActionID Steal::getActionID()
 {
     return actionID;
 }
 
-void Assassinate::acquireTarget(std::vector<Player>& availablePlayers, std::istream& uiIn, std::ostream& uiOut)
+void Steal::acquireTarget(std::vector<Player>& availablePlayers, std::istream& uiIn, std::ostream& uiOut)
 {
     int selection = -1;
 
@@ -74,10 +73,11 @@ void Assassinate::acquireTarget(std::vector<Player>& availablePlayers, std::istr
 
 
 
-void Assassinate::checkForChallenge(std::vector<Player>& availablePlayers)
+void Steal::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
+// TODO (Backbox#1#): Change all instances of "player" in checkForChallenge() to "targetPlayer" for clarity
     for (unsigned int player = 0; player < availablePlayers.size()  && !challenger; player++)
     {
         if (&availablePlayers[player] != caster)
@@ -88,19 +88,19 @@ void Assassinate::checkForChallenge(std::vector<Player>& availablePlayers)
 
     if (challenger)
     {
-        *globalComms << challenger->getName() << " challenges " << caster->getName() << "'s claim to the Assassin!\n";
+        *globalComms << challenger->getName() << " challenges " << caster->getName() << "'s claim to the Captain!\n";
         challenge(challenger);
     }
 }
 
-Player* Assassinate::offerChallenge(Player* prospectiveChallenger)
+Player* Steal::offerChallenge(Player* prospectiveChallenger)
 {
-    *prospectiveChallenger->uiOut << prospectiveChallenger->getName() << ", would you like to challenge " << caster->getName() << "'s claim to the Assassin? ";
+    *prospectiveChallenger->uiOut << prospectiveChallenger->getName() << ", would you like to challenge " << caster->getName() << "'s claim to the Captain? ";
 
     return (getSelection(*prospectiveChallenger->uiIn, *prospectiveChallenger->uiOut) ? prospectiveChallenger : nullptr);
 }
 
-void Assassinate::challenge(Player* challenger)
+void Steal::challenge(Player* challenger)
 {
     if (isBluff)
     {
@@ -115,7 +115,7 @@ void Assassinate::challenge(Player* challenger)
     }
 }
 
-void Assassinate::checkForBlock(std::vector<Player>& availablePlayers)
+void Steal::checkForBlock(std::vector<Player>& availablePlayers)
 {
     bool blocking = false;
     *target->uiOut << target->getName() << ", would you like to block? ";
@@ -128,22 +128,18 @@ void Assassinate::checkForBlock(std::vector<Player>& availablePlayers)
 
 }
 
-void Assassinate::block()
+void Steal::block()
 {
     status = BLOCKED;
 }
 
-void Assassinate::resolve()
+void Steal::resolve()
 {
     if (status == VALID)
     {
-        *globalComms << caster->getName() << " assassinates " << target->getName() << ".\n";
-        caster->takeIsk(3);
-        target->sacrifice();
-    }
-    else if (status == BLOCKED)
-    {
-        caster->takeIsk(3);
+        *globalComms << caster->getName() << " steals two ISK from " << target->getName() << ".\n";
+        target->takeIsk(2);
+        caster->giveIsk(2);
     }
 
     status = RESOLVED;

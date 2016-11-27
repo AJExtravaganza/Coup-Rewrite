@@ -1,0 +1,8 @@
+#include "Income.hpp"
+#include "ForeignAid.hpp"
+#include "Coup.hpp"
+#include "Tax.hpp"
+#include "Assassinate.hpp"
+#include "Exchange.hpp"
+#include "Steal.hpp"
+#include "Block.hpp"

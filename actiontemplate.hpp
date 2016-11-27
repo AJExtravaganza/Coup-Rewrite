@@ -3,19 +3,19 @@
 #include "Action.hpp"
 #include "Block.hpp"
 
-class Steal: public Action
+class ~actionName: public Action
 {
 private:
     Player* target;
-    static const ActionID actionID = STEAL;
+    static const ActionID actionID = ~actionLABEL;
 
 protected:
 
 public:
-    Steal(Player* _caster, std::vector<Player>& availablePlayers);
-    Steal(const Steal& other);
-    Steal& operator=(const Steal& other);
-    virtual ~Steal();
+    ~actionName(Player* _caster, std::vector<Player>& availablePlayers);
+    ~actionName(const ~actionName& other);
+    ~actionName& operator=(const ~actionName& other);
+    virtual ~~actionName();
 
     ActionID getActionID();
     void acquireTarget(std::vector<Player>& availablePlayers, std::istream& uiIn, std::ostream& uiOut);
