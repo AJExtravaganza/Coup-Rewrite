@@ -49,19 +49,19 @@ void Block::checkForChallenge(std::vector<Player>& availablePlayers)
 {
     Player * challenger = nullptr;
 
-    for (int player = 0; player < availablePlayers.size()  && !challenger; player++)
+    for (int targetPlayer = 0; targetPlayer < availablePlayers.size()  && !challenger; targetPlayer++)
     {
-        if (&availablePlayers[player] != caster)
+        if (&availablePlayers[targetPlayer] != caster)
         {
-            challenger = offerChallenge(&availablePlayers[player]);
+            challenger = offerChallenge(&availablePlayers[targetPlayer]);
         }
     }
 
     if (challenger)
     {
         challenge(challenger);
-    }
 }
+    }
 
 Player* Block::offerChallenge(Player* prospectiveChallenger)
 {

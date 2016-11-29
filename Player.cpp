@@ -30,7 +30,8 @@ Player& Player::operator=(const Player& other)
     isk = other.isk;
     isAlive = other.isAlive;
     hand = {};
-// TODO (Backbox#1#): Can't I just assign other.hand to this.hand?
+// TODO (Backbox#1#): Can't I just assign other.hand to this.hand? (apparently not)
+
     for (int card = 0; card < other.hand.size(); card++)
     {
         hand.push_back(other.hand[card]);
@@ -106,7 +107,7 @@ bool Player::hasInfluenceOver(Role claimedRole)
 }
 
 // TODO (Backbox#1#): Dirty ad-hoc.  Pretty it up later.
-std::string Player::listHand()
+std::string Player::listHandBrief()
 {
     std::string handString = "   ";
 

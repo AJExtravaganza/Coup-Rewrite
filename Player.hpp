@@ -13,7 +13,6 @@ private:
     int playerID;
     std::string name;
     int isk;
-// TODO (Backbox#1#): Upon project completion, check if still necessary
     bool isAlive;
     std::vector<Card> hand;
 
@@ -38,7 +37,7 @@ public:
     bool hasIsk(int cost) const;
     void giveNewCard(Card newCard);
     bool hasInfluenceOver(Role claimedRole);
-    std::string listHand();
+    std::string listHandBrief();
     std::string listHandInline();
     void listHandInline(std::ostream& out);
     void playerDiscards(int requiredDiscards);

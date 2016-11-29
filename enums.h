@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO (Backbox#1#): Cull as necessary upon completion of project
 enum Role
 {
     NullRole,
@@ -8,7 +7,7 @@ enum Role
     ASSASSIN,
     AMBASSADOR,
     CAPTAIN,
-    CONTESSA,
+    CONTESSA
 };
 
 enum ActionID
@@ -20,12 +19,7 @@ enum ActionID
     TAX,
     ASSASSINATE,
     EXCHANGE,
-    STEAL,
-    BLOCK_FOREIGN_AID,
-    BLOCK_ASSASSINATE,
-    BLOCK_STEAL_CAPTAIN,
-    BLOCK_STEAL_AMBASSADOR,
-    CHALLENGE,
+    STEAL
 };
 
 enum ActionStatus

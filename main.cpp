@@ -1,26 +1,17 @@
 /*
-// TODO (Backbox#1#): Constructors/destructors for all relevant classes.
 // TODO (Backbox#1#): CURRENT STATUS: ...
 //
-// Initialisation and all actions implemented/tested.
-// Challenges tested
-// All blocking tested
-// Card exposure tested wrt bluffing and exchange.
+// Game complete and tested.
 //
 //TO DO:
-//
-//
 // - Implement some kind of ui
-// - Implement player death
-// - Implement win detection
+// - Implement some kind of multiplayer
 
     AUTHOR: ALEXANDER DUNN
     PROJECT NAME:
     PROJECT DESCRIPTION:
     PROJECT STARTED:
 */
-// TODO (Backbox#1#): Implement player death
-// TODO (Backbox#1#): Implement win detection
 
 #include "CoupActions.hpp"
 #include "CoupDeck.hpp"
@@ -29,6 +20,7 @@
 #include <time.h>
 #include "stdlib.h"
 
+void initialise(int numberOfPlayers, std::vector<Player>& players, CoupDeck gameDeck);
 void processTurn(std::vector<Player>& activePlayers, Player* activePlayer, std::ostream* globalComms);
 void boardState(std::vector<Player>& activePlayers, std::ostream* globalComms);
 
@@ -44,17 +36,12 @@ int main()
     int desiredPlayers = getSelection(2, 6, *serverInput, *globalComms);
     serverInput->ignore();
 
-    for (int i = 0; i < desiredPlayers; i++)
-    {
-        activePlayers.push_back(Player(i, &gameDeck));
-        activePlayers[i].giveIsk(3);
-        activePlayers[i].giveNewCard(gameDeck.draw());
-        activePlayers[i].giveNewCard(gameDeck.draw());
-    }
+    initialise(desiredPlayers, activePlayers, gameDeck);
 
-// TODO (Backbox#1#): Some shitty counting when 2 and 3 coup 1
     for (int i = 0; activePlayers.size() > 1; i = ((i + 1) % activePlayers.size()))
     {
+        system("cls");
+
         processTurn(activePlayers, (&activePlayers[0] + i), globalComms);
         for (int j = 0; j < activePlayers.size(); j++)
         {
@@ -70,6 +57,8 @@ int main()
                 j--;
             }
         }
+
+        system("pause");
     }
 
     *globalComms << activePlayers[0].getName() << " wins the game, holding " << activePlayers[0].listHandInline() << "!\n\n";
@@ -78,12 +67,23 @@ int main()
     return 0;
 }
 
+void initialise(int desiredPlayers, std::vector<Player>& players, CoupDeck gameDeck)
+{
+    for (int i = 0; i < desiredPlayers; i++)
+    {
+        players.push_back(Player(i, &gameDeck));
+        players[i].giveIsk(3);
+        players[i].giveNewCard(gameDeck.draw());
+        players[i].giveNewCard(gameDeck.draw());
+    }
+}
+
 void processTurn(std::vector<Player>& activePlayers, Player* activePlayer, std::ostream* globalComms)
 {
     int menuSelection = -1;
     Action* activeAction = nullptr;
 
-    *globalComms << "\n\n\n" << activePlayer->getName() << " is the active player\n\n";
+    *globalComms << activePlayer->getName() << " is the active player\n\n";
 
     boardState(activePlayers, globalComms);
 
@@ -150,7 +150,7 @@ void boardState(std::vector<Player>& activePlayers, std::ostream* globalComms)
         *globalComms << std::left
                      << std::setw(15) << activePlayers[i].getName()
                      << std::setw(2) << activePlayers[i].iskBalance() << "ISK"
-                     << activePlayers[i].listHand() << "\n";
+                     << activePlayers[i].listHandBrief() << "\n";
     }
 
     *globalComms << std::endl;
