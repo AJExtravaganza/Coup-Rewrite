@@ -18,4 +18,7 @@ public:
 
     Card();
     Card(Role card);
+// TODO (Backbox#1#): killMe
+    //Card(const Card& other);
+    //Card& operator=(const Card& other);
 };

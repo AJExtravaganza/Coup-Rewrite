@@ -30,6 +30,21 @@ Card::Card(Role _role): role(_role), name(""), exposed(false)
 
 }
 
+// TODO (Backbox#1#): killMe
+/*Card::Card(const Card& other): role(other.role), name(other.name), exposed(other.exposed)
+{
+
+}
+
+Card& Card::operator=(const Card& other)
+{
+    role = other.role;
+    name = other.name;
+    exposed = other.exposed;
+
+    return *this;
+}*/
+
 bool Card::is(Role queriedRole)
 {
     return (role == queriedRole);
